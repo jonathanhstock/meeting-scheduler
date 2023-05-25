@@ -3,3 +3,5 @@
 - Run `npm install` in both folders (client and server) to install all their dependencies.
 
 - Start both servers in separate terminals using `npm start`
+
+- The web application should open in your browser

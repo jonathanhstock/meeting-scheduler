@@ -62,7 +62,6 @@ const Dashboard = () => {
     <div>
       <nav className="dashboard__nav">
         <h2>Jegg-Meet</h2>
-
         <button
           onClick={() => navigate(`/profile/${localStorage.getItem("_id")}`)}
           className="schedule__btn"
