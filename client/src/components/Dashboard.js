@@ -10,13 +10,13 @@ const Dashboard = () => {
   const [selectedTimezone, setSelectedTimezone] = useState({});
 
   const [schedule, setSchedule] = useState([
-    { day: "Sun", startTime: "", endTime: "" },
-    { day: "Mon", startTime: "", endTime: "" },
-    { day: "Tue", startTime: "", endTime: "" },
-    { day: "Wed", startTime: "", endTime: "" },
-    { day: "Thu", startTime: "", endTime: "" },
-    { day: "Fri", startTime: "", endTime: "" },
-    { day: "Sat", startTime: "", endTime: "" },
+    { day: "Sun", timeSlots: [{ startTime: "", endTime: "" }] },
+    { day: "Mon", timeSlots: [{ startTime: "", endTime: "" }] },
+    { day: "Tue", timeSlots: [{ startTime: "", endTime: "" }] },
+    { day: "Wed", timeSlots: [{ startTime: "", endTime: "" }] },
+    { day: "Thu", timeSlots: [{ startTime: "", endTime: "" }] },
+    { day: "Fri", timeSlots: [{ startTime: "", endTime: "" }] },
+    { day: "Sat", timeSlots: [{ startTime: "", endTime: "" }] },
   ]);
 
   useEffect(() => {
@@ -25,13 +25,20 @@ const Dashboard = () => {
     }
   }, [navigate]);
 
-  const handleTimeChange = (e, id) => {
+  const handleTimeChange = (e, dayIndex, slotIndex) => {
     const { name, value } = e.target;
     if (value === "Select") return;
-    const list = [...schedule];
-    list[id][name] = value;
-    setSchedule(list);
+    const updatedSchedule = [...schedule];
+    updatedSchedule[dayIndex].timeSlots[slotIndex][name] = value;
+    setSchedule(updatedSchedule);
   };
+
+  const handleAddTimeSlot = (dayIndex) => {
+    const updatedSchedule = [...schedule];
+    updatedSchedule[dayIndex].timeSlots.push({ startTime: "", endTime: "" });
+    setSchedule(updatedSchedule);
+  };
+
   const handleSaveSchedules = () => {
     if (JSON.stringify(selectedTimezone) !== "{}") {
       handleCreateSchedule(selectedTimezone, schedule, navigate);
@@ -72,37 +79,47 @@ const Dashboard = () => {
             onChange={setSelectedTimezone}
           />
 
-          {schedule.map((sch, id) => (
-            <div className="form" key={id}>
-              <p>{sch.day}</p>
-              <div className="select__wrapper">
-                <label htmlFor="startTime">Start Time</label>
-                <select
-                  name="startTime"
-                  id="startTime"
-                  onChange={(e) => handleTimeChange(e, id)}
-                >
-                  {time.map((t) => (
-                    <option key={t.id} value={t.t} id={t.id}>
-                      {t.t}
-                    </option>
-                  ))}
-                </select>
-              </div>
-              <div className="select__wrapper">
-                <label htmlFor="endTime">End Time</label>
-                <select
-                  name="endTime"
-                  id="endTime"
-                  onChange={(e) => handleTimeChange(e, id)}
-                >
-                  {time.map((t) => (
-                    <option key={t.id} value={t.t} id={t.id}>
-                      {t.t}
-                    </option>
-                  ))}
-                </select>
-              </div>
+          {schedule.map((day, dayIndex) => (
+            <div className="form" key={day.day}>
+              <p>{day.day}</p>
+              {day.timeSlots.map((timeSlot, slotIndex) => (
+                <div className="select__wrapper" key={slotIndex}>
+                  <label htmlFor={`startTime-${dayIndex}-${slotIndex}`}>
+                    Start Time
+                  </label>
+                  <select
+                    name="startTime"
+                    id={`startTime-${dayIndex}-${slotIndex}`}
+                    onChange={(e) => handleTimeChange(e, dayIndex, slotIndex)}
+                  >
+                    {time.map((t) => (
+                      <option key={t.id} value={t.t} id={t.id}>
+                        {t.t}
+                      </option>
+                    ))}
+                  </select>
+                  <label htmlFor={`endTime-${dayIndex}-${slotIndex}`}>
+                    End Time
+                  </label>
+                  <select
+                    name="endTime"
+                    id={`endTime-${dayIndex}-${slotIndex}`}
+                    onChange={(e) => handleTimeChange(e, dayIndex, slotIndex)}
+                  >
+                    {time.map((t) => (
+                      <option key={t.id} value={t.t} id={t.id}>
+                        {t.t}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              ))}
+              <button
+                onClick={() => handleAddTimeSlot(dayIndex)}
+                className="add-timeslot__btn"
+              >
+                Add Time Slot
+              </button>
             </div>
           ))}
         </div>
