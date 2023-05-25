@@ -10,13 +10,13 @@ const Dashboard = () => {
   const [selectedTimezone, setSelectedTimezone] = useState({});
 
   const [schedule, setSchedule] = useState([
-    { day: "Sun", timeSlots: [{ startTime: "", endTime: "" }] },
-    { day: "Mon", timeSlots: [{ startTime: "", endTime: "" }] },
-    { day: "Tue", timeSlots: [{ startTime: "", endTime: "" }] },
-    { day: "Wed", timeSlots: [{ startTime: "", endTime: "" }] },
-    { day: "Thu", timeSlots: [{ startTime: "", endTime: "" }] },
-    { day: "Fri", timeSlots: [{ startTime: "", endTime: "" }] },
-    { day: "Sat", timeSlots: [{ startTime: "", endTime: "" }] },
+    { day: "Sun", slots: [{ startTime: "", endTime: "" }] },
+    { day: "Mon", slots: [{ startTime: "", endTime: "" }] },
+    { day: "Tue", slots: [{ startTime: "", endTime: "" }] },
+    { day: "Wed", slots: [{ startTime: "", endTime: "" }] },
+    { day: "Thu", slots: [{ startTime: "", endTime: "" }] },
+    { day: "Fri", slots: [{ startTime: "", endTime: "" }] },
+    { day: "Sat", slots: [{ startTime: "", endTime: "" }] },
   ]);
 
   useEffect(() => {
@@ -25,23 +25,28 @@ const Dashboard = () => {
     }
   }, [navigate]);
 
-  const handleTimeChange = (e, dayIndex, slotIndex) => {
+  const handleTimeChange = (e, id, slotId) => {
     const { name, value } = e.target;
     if (value === "Select") return;
-    const updatedSchedule = [...schedule];
-    updatedSchedule[dayIndex].timeSlots[slotIndex][name] = value;
-    setSchedule(updatedSchedule);
+    const list = [...schedule];
+    list[id].slots[slotId][name] = value;
+    setSchedule(list);
   };
 
-  const handleAddTimeSlot = (dayIndex) => {
-    const updatedSchedule = [...schedule];
-    updatedSchedule[dayIndex].timeSlots.push({ startTime: "", endTime: "" });
-    setSchedule(updatedSchedule);
+  const handleAddTimeSlot = (id) => {
+    const list = [...schedule];
+    list[id].slots = [...list[id].slots, { startTime: "", endTime: "" }];
+    setSchedule(list);
   };
 
   const handleSaveSchedules = () => {
     if (JSON.stringify(selectedTimezone) !== "{}") {
-      handleCreateSchedule(selectedTimezone, schedule, navigate);
+      const transformedSchedule = schedule.map((day) => ({
+        ...day,
+        startTime: day.slots.map((slot) => slot.startTime),
+        endTime: day.slots.map((slot) => slot.endTime),
+      }));
+      handleCreateSchedule(selectedTimezone, transformedSchedule, navigate);
     } else {
       toast.error("Select your timezone");
     }
@@ -56,7 +61,7 @@ const Dashboard = () => {
   return (
     <div>
       <nav className="dashboard__nav">
-        <h2>COEN-Meet</h2>
+        <h2>Jegg-Meet</h2>
 
         <button
           onClick={() => navigate(`/profile/${localStorage.getItem("_id")}`)}
@@ -79,46 +84,45 @@ const Dashboard = () => {
             onChange={setSelectedTimezone}
           />
 
-          {schedule.map((day, dayIndex) => (
-            <div className="form" key={day.day}>
-              <p>{day.day}</p>
-              {day.timeSlots.map((timeSlot, slotIndex) => (
-                <div className="select__wrapper" key={slotIndex}>
-                  <label htmlFor={`startTime-${dayIndex}-${slotIndex}`}>
-                    Start Time
-                  </label>
-                  <select
-                    name="startTime"
-                    id={`startTime-${dayIndex}-${slotIndex}`}
-                    onChange={(e) => handleTimeChange(e, dayIndex, slotIndex)}
-                  >
-                    {time.map((t) => (
-                      <option key={t.id} value={t.t} id={t.id}>
-                        {t.t}
-                      </option>
-                    ))}
-                  </select>
-                  <label htmlFor={`endTime-${dayIndex}-${slotIndex}`}>
-                    End Time
-                  </label>
-                  <select
-                    name="endTime"
-                    id={`endTime-${dayIndex}-${slotIndex}`}
-                    onChange={(e) => handleTimeChange(e, dayIndex, slotIndex)}
-                  >
-                    {time.map((t) => (
-                      <option key={t.id} value={t.t} id={t.id}>
-                        {t.t}
-                      </option>
-                    ))}
-                  </select>
+          {schedule.map((sch, id) => (
+            <div className="form" key={id}>
+              <p>{sch.day}</p>
+              {sch.slots.map((slot, slotId) => (
+                <div className="time-slot" key={slotId}>
+                  <div className="select__wrapper">
+                    <label htmlFor={`startTime-${id}-${slotId}`}>
+                      Start Time
+                    </label>
+                    <select
+                      name="startTime"
+                      id={`startTime-${id}-${slotId}`}
+                      onChange={(e) => handleTimeChange(e, id, slotId)}
+                    >
+                      {time.map((t) => (
+                        <option key={t.id} value={t.t} id={t.id}>
+                          {t.t}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                  <div className="select__wrapper">
+                    <label htmlFor={`endTime-${id}-${slotId}`}>End Time</label>
+                    <select
+                      name="endTime"
+                      id={`endTime-${id}-${slotId}`}
+                      onChange={(e) => handleTimeChange(e, id, slotId)}
+                    >
+                      {time.map((t) => (
+                        <option key={t.id} value={t.t} id={t.id}>
+                          {t.t}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
                 </div>
               ))}
-              <button
-                onClick={() => handleAddTimeSlot(dayIndex)}
-                className="add-timeslot__btn"
-              >
-                Add Time Slot
+              <button onClick={() => handleAddTimeSlot(id)}>
+                Add More Time Slot
               </button>
             </div>
           ))}
