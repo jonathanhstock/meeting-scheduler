@@ -49,7 +49,7 @@ const Dashboard = () => {
   return (
     <div>
       <nav className="dashboard__nav">
-        <h2>COEN-Meet</h2>
+        <h2>CoMeet</h2>
 
         <button
           onClick={() => navigate(`/profile/${localStorage.getItem("_id")}`)}
