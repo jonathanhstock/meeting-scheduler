@@ -68,8 +68,18 @@ const Profile = () => {
                   <td style={{ fontWeight: "bold" }}>
                     {sch.day.toUpperCase()}
                   </td>
-                  <td>{sch.startTime || "Unavailable"}</td>
-                  <td>{sch.endTime || "Unavailable"}</td>
+                  <td>
+                    {sch.startTime.length
+                      ? sch.startTime.map((time, i) => (
+                          <div key={i}>{time}</div>
+                        ))
+                      : "Unavailable"}
+                  </td>
+                  <td>
+                    {sch.endTime.length
+                      ? sch.endTime.map((time, i) => <div key={i}>{time}</div>)
+                      : "Unavailable"}
+                  </td>
                 </tr>
               ))}
             </tbody>
