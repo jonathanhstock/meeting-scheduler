@@ -10,6 +10,7 @@ app.use(express.json());
 // need to find a way to do remote database so that information saves offline when server is not running
 const database = [];
 const createID = () => Math.random().toString(36).substring(2, 10);
+const scheduleCount = 0;
 
 app.post("/register", (req, res) => {
   const { username, email, password } = req.body;
@@ -53,8 +54,10 @@ app.post("/schedule/create", (req, res) => {
   const { userId, timezone, schedule } = req.body;
   let result = database.filter((db) => db.id === userId);
   result[0].timezone = timezone;
-  result[0].schedule = schedule;
+  result[0].schedule[scheduleCount] = schedule;
+  scheduleCount++;
   res.json({ message: "OK" });
+  res.json({ message: "Current schedule count: " + scheduleCount });
 });
 
 app.get("/schedules/:id", (req, res) => {
