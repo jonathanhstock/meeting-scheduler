@@ -13,6 +13,11 @@ const createID = () => Math.random().toString(36).substring(2, 10);
 scheduleCount = 0;
 
 
+/**
+ * Weekly schedule class
+ *    schedule dictionary with lists of time slots
+ * 
+ */
 class weeklySchedule {
 
   // schedule data structure 
