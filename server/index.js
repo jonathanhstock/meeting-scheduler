@@ -155,7 +155,7 @@ app.post("/register", (req, res) => {
       password,
       email,
       timezone: {},
-      schedule: [],
+      schedule: [], // will store multiple objects of weekly schedule class
     });
     return res.json({ message: "Account created successfully!" });
   }
