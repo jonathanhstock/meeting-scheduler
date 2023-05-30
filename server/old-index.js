@@ -2,12 +2,12 @@ const express = require("express");
 const app = express();
 const cors = require("cors");
 const PORT = 4000;
+const fs = require("fs");
 
 app.use(cors());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-// need to find a way to do remote database so that information saves offline when server is not running
 const database = [];
 const createID = () => Math.random().toString(36).substring(2, 10);
 scheduleCount = 0;
@@ -18,35 +18,71 @@ app.post("/register", (req, res) => {
     (user) => user.email === email || user.username === username
   );
   if (result.length === 0) {
-    database.push({
+    const newUser = {
       id: createID(),
       username,
       password,
       email,
       timezone: {},
       schedule: [],
+    };
+    database.push(newUser);
+
+    // adds new user into json file
+    fs.readFile("users.json", (err, data) => {
+      if (err) {
+        // return error message
+        console.log(err);
+        return res.json({ error_message: "Failed to register user" });
+      }
+      let users = [];
+      if (data.length > 0) {
+        users = JSON.parse(data);
+        // if users are not created then create a new array
+        if (!Array.isArray(users)) {
+          users = [];
+        }
+      }
+      users.push(newUser);
+
+      fs.writeFile("users.json", JSON.stringify(users), (err) => {
+        if (err) {
+          // return error message
+          return res.json({ error_message: "Failed to register user" });
+        }
+        return res.json({ message: "Account created successfully! " });
+      });
     });
-    return res.json({ message: "Account created successfully!" });
+  } else {
+    res.json({ error_message: "User already exists!" });
   }
-  res.json({ error_message: "User already exists!" });
 });
 
+// logs user in from JSON file
 app.post("/login", (req, res) => {
   const { username, password } = req.body;
-  let result = database.filter(
-    (user) => user.username === username && user.password === password
-  );
-  if (result.length !== 1) {
+  fs.readFile("users.json", (err, data) => {
+    if (err) {
+      // return error message
+      return res.json({ error_message: "Failed to login" });
+    }
+    const users = JSON.parse(data);
+    const result = users.find(
+      (user) => user.username === username && user.password === password
+    );
+
+    if (result) {
+      return res.json({
+        message: "Login successfully",
+        data: {
+          _id: result.id,
+          _email: result.email,
+        },
+      });
+    }
     return res.json({
-      error_message: "Incorrect credentials",
+      error_message: "Failed to login. Incorrect credentials",
     });
-  }
-  res.json({
-    message: "Login successfully",
-    data: {
-      _id: result[0].id,
-      _email: result[0].email,
-    },
   });
 });
 
