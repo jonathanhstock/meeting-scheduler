@@ -1,181 +1,177 @@
 @import url("https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap");
+
 * {
-	box-sizing: border-box;
-	margin: 0;
-	padding: 0;
-	font-family: "Space Grotesk", sans-serif;
-}
-body {
-	margin: 0;
-	padding: 0;
-}
-a {
-	text-decoration: none;
-	color: #c58940;
-	cursor: pointer;
-}
-input,
-textarea {
-	padding: 15px;
-	width: 100%;
-	margin-bottom: 20px;
-}
-label {
-	margin-bottom: 5px;
-}
-button {
-	cursor: pointer;
-	outline: none;
-	border: none;
-	padding: 10px;
-}
-.login,
-.login__form,
-.signup,
-.signup__form {
-	width: 100%;
-	min-height: 100vh;
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	justify-content: center;
-}
-.login__form input,
-.signup__form input {
-	width: 70%;
-}
-.login__title,
-.signup__title {
-	margin-bottom: 30px;
-}
-.loginButton,
-.signupButton {
-	width: 200px;
-	padding: 15px;
-	background-color: #e6ddc4;
-}
-.dashboard__nav {
-	background-color: #c58940;
-	height: 10vh;
-	width: 100%;
-	padding: 20px;
-	display: flex;
-	/* flex-direction: column-reverse; */
-	align-items: center;
-	justify-content: space-between;
-}
-/* // How do I get each button in dashboard__nav to be spaced evenly? */
-.schedule__btn{
-	padding: 15px;
-	width: 150px;
-	margin-right: 0px;
-	background-color: #faf8f1;
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
 }
 
-.logout__btn,
-.dashboard__heading button {
-	padding: 15px;
-	width: 150px;
-	margin-right: 15px;
-	background-color: #faf8f1;
+body {
+  font-family: 'Space Grotesk', sans-serif;
+  background: #e8eaf6;
+  color: #333;
 }
-.schedule__btn:hover,
-.logout__btn:hover {
-	background-color: #faeab1;
+
+.container {
+  width: 100%;
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 2rem;
 }
-.dashboard__main {
-	padding: 20px;
+
+.block {
+  background-color: #ffffff; /* Updated the background color */
+  border-radius: 5px;
+  padding: 2rem;
+  margin-bottom: 2rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.button {
+  background-color: #34568B;
+  color: #fff;
+  border: none;
+  border-radius: 3px;
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.button:hover {
+  background-color: #233B60;
+}
+
+.button:active {
+  background-color: #182433;
+}
+
+.input {
+  width: 100%;
+  padding: 0.75rem;
+  margin-bottom: 1.5rem; /* Added extra spacing between input elements */
+  border-radius: 3px;
+  border: 1px solid #d7d7d7;
+  font-size: 1rem;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 2rem;
+}
+
+.table td,
+.table th {
+  padding: 1rem; /* Increased padding for table cells */
+  border: 1px solid #d7d7d7;
+}
+
+.table th {
+  background-color: #6573c3; /* Livelier table header color */
+  color: #fff;
+}
+
+nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+h2 {
+  color: #34568B;
+  margin-bottom: 1rem;
+}
+
+label {
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+
+.button-container {
 	display: flex;
-	flex-direction: column;
-	align-items: center;
-}
-.dashboard__heading {
-	display: flex;
-	margin-bottom: 25px;
-	align-items: center;
-	justify-content: space-between;
-}
-.timezone__wrapper {
-	width: 50%;
-}
-.saveBtn__container {
-	width: 100%;
-	padding: 30px;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-}
-.saveBtn__container button {
-	width: 200px;
-	padding: 15px;
-	background-color: #faeab1;
-}
+	gap: 1rem;
+	margin-bottom: 2rem;
+  }
+
+
+/* previous CSS code... */
+
+/* form styles */
 .form {
-	width: 100%;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	margin-top: 30px;
+  max-width: 500px;
+  margin: auto;
+  padding: 2rem;
+  box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
 }
-.select__wrapper {
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	margin: 15px;
+
+.form-title {
+  margin-bottom: 2rem;
+  text-align: center;
+  color: #34568B;
 }
-select {
-	padding: 10px;
-	min-width: 150px;
+
+.form-field {
+  margin-bottom: 1.5rem;
 }
-.profile {
-	min-height: 100vh;
-	width: 100%;
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	justify-content: center;
+
+.form-input {
+  width: 100%;
+  padding: 10px;
+  border-radius: 4px;
+  border: 1px solid #ddd;
+  transition: border 0.3s ease;
 }
-table {
-	border: 1px solid #ddd;
-	width: 100%;
-	border-collapse: collapse;
+
+.form-input:focus {
+  border-color: #34568B;
 }
-tr,
-td {
-	border: 1px solid #ddd;
-	padding: 20px;
+
+.form-button {
+  width: 100%;
+  padding: 10px;
+  background-color: #34568B;
+  border: none;
+  color: white;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
 }
-.bookContainer {
-	width: 100%;
-	min-height: 100vh;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	flex-direction: column;
-	padding: 30px;
+
+.form-button:hover {
+  background-color: #233B60;
 }
-.booking__form {
-	display: flex;
-	justify-content: center;
-	flex-direction: column;
-	width: 80%;
-	margin: 0 auto;
+
+.form-footer {
+  text-align: center;
+  margin-top: 1.5rem;
 }
-.bookTitle {
-	margin-bottom: 30px;
-	color: #c58940;
+
+/* dashboard styles */
+.day-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem; /* Added extra spacing between day rows */
 }
-.bookingBtn {
-	margin-top: 20px;
-	background-color: #c58940;
-	color: #fff;
+
+.time-slots {
+  display: flex;
+  flex-wrap: wrap;
 }
-.errorContainer {
-	display: flex;
-	align-items: center;
-	height: 100vh;
-	width: 100%;
-	padding: 30px;
-	justify-content: center;
-	flex-direction: column;
+
+.time-slot {
+  display: flex;
+  margin-right: 2rem; /* Added extra spacing between time slots */
+}
+
+.add-time-slot {
+  margin-left: auto;
+}
+
+.save-button {
+  width: 100%;
 }

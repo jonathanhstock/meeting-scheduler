@@ -33,60 +33,50 @@ const Profile = () => {
   }, [navigate]);
 
   return (
-    <main className="profile">
-      {loading ? (
-        <p>Loading...</p>
-      ) : (
-        <div style={{ width: "70%" }}>
-          <h2
-            style={{
-              marginBottom: "30px",
-            }}
-          >
-            Hey, {username}
-          </h2>
-          <button onClick={() => navigate("/dashboard")} className="dashboard">
-            Dashboard
-          </button>
-          <button
-            onClick={() => navigate("/book/" + username)}
-            className="emailBook"
-          >
-            Email Schedule
-          </button>
-          <p
-            style={{
-              marginBottom: "10px",
-            }}
-          >
-            Here is your schedule: - {timezone}
-          </p>
-          <table>
-            <tbody>
-              {schedules.map((sch) => (
-                <tr key={sch.day}>
-                  <td style={{ fontWeight: "bold" }}>
-                    {sch.day.toUpperCase()}
-                  </td>
-                  <td>
-                    {sch.startTime.length
-                      ? sch.startTime.map((time, i) => (
-                          <div key={i}>{time}</div>
-                        ))
-                      : "Unavailable"}
-                  </td>
-                  <td>
-                    {sch.endTime.length
-                      ? sch.endTime.map((time, i) => <div key={i}>{time}</div>)
-                      : "Unavailable"}
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      )}
-    </main>
+    <main className="container">
+  {loading ? (
+    <p>Loading...</p>
+  ) : (
+    <div className="block">
+      <h2>Hey, {username}</h2>
+      <div className="button-container">
+        <button onClick={() => navigate("/dashboard")} className="button">
+          Dashboard
+        </button>
+        <button onClick={() => navigate(`/book/${username}`)} className="button">
+          Email Schedule
+        </button>
+      </div>
+      <p>Here is your schedule: - {timezone}</p>
+      <table className="table">
+        <tbody>
+          {schedules.map((sch) => (
+            <tr key={sch.day}>
+              <td style={{ fontWeight: "bold" }}>{sch.day.toUpperCase()}</td>
+              <td>
+                {sch.startTime.length ? (
+                  sch.startTime.map((time, i) => <div key={i}>{time}</div>)
+                ) : (
+                  <div>Unavailable</div>
+                )}
+              </td>
+              <td>
+                {sch.endTime.length ? (
+                  sch.endTime.map((time, i) => <div key={i}>{time}</div>)
+                ) : (
+                  <div>Unavailable</div>
+                )}
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  )}
+</main>
+
+
+
   );
 };
 
