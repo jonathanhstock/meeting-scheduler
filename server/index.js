@@ -24,7 +24,7 @@ function convertScheduleToObject(scheduleData) {
     }
   }
 
-  return convertSchedule;
+  return convertedSchedule;
 }
 
 function convertToScheduleArray(weeklyScheduleObj) {
