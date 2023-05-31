@@ -24,7 +24,7 @@ app.post("/register", (req, res) => {
       password,
       email,
       timezone: {},
-      schedule: [],
+      schedule: [], // hold multiple schedules
     });
     return res.json({ message: "Account created successfully!" });
   }
