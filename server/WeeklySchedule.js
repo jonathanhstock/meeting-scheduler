@@ -9,11 +9,13 @@ class WeeklySchedule {
     //    holds time slots in list of duples
     constructor() {
       this.schedule = {
-        Monday: [],
-        Tuesday: [],
-        Wednesday: [],
-        Thursday: [],
-        Friday: [],
+        Sun: [],
+        Mon: [],
+        Tue: [],
+        Wed: [],
+        Thu: [],
+        Fri: [],
+        Sat: [],
       };
     }
   

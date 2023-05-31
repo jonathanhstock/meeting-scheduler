@@ -1,7 +1,7 @@
 const express = require("express");
 const app = express();
 const cors = require("cors");
-const WeeklySchedule = require("./WeeklySchedule");
+const { default: weeklySchedule } = require("./WeeklySchedule");
 const PORT = 4000;
 
 app.use(cors());
@@ -14,7 +14,7 @@ const createID = () => Math.random().toString(36).substring(2, 10);
 let scheduleCount = 0;
 
 function convertScheduleToObject(scheduleData) {
-  const convertedSchedule = new WeeklySchedule();
+  const convertedSchedule = new weeklySchedule();
 
   for(const daySlot of scheduleData) {
     const { day, slots } = daySlot;
@@ -24,7 +24,7 @@ function convertScheduleToObject(scheduleData) {
     }
   }
 
-  return convertedSchedule;
+  return convertSchedule;
 }
 
 function convertToScheduleArray(weeklyScheduleObj) {
@@ -36,8 +36,8 @@ function convertToScheduleArray(weeklyScheduleObj) {
     const daySlot = {
       day,
       slots: timeSlots.map((timeSlot) => ({
-        startTime: timeSlot.startTime || "unavailable",
-        endTime: timeSlot.endTime || "unavailable",
+        startTime: timeSlot.startTime,
+        endTime: timeSlot.endTime,
       })),
     };
     scheduleArray.push(daySlot);
@@ -58,7 +58,7 @@ app.post("/register", (req, res) => {
       password,
       email,
       timezone: {},
-      schedules: [], // hold multiple schedules
+      schedule: [], // hold multiple schedules
     });
     return res.json({ message: "Account created successfully!" });
   }
@@ -88,7 +88,7 @@ app.post("/schedule/create", (req, res) => {
   const { userId, timezone, schedule } = req.body;
   let result = database.filter((db) => db.id === userId);
   result[0].timezone = timezone;
-  result[0].schedules.push(convertScheduleToObject(schedule));
+  result[0].schedule = schedule;
   res.json({ message: "OK" });
 });
 
@@ -96,13 +96,9 @@ app.get("/schedules/:id", (req, res) => {
   const { id } = req.params;
   let result = database.filter((db) => db.id === id);
   if (result.length === 1) {
-    const schedules = result[0].schedules;
-    const scheduleArray = schedules.map((schedule) => 
-      convertToScheduleArray(schedule)
-    );
     return res.json({
       message: "Schedules successfully retrieved!",
-      schedules: scheduleArray,
+      schedules: result[0].schedule,
       username: result[0].username,
       timezone: result[0].timezone,
     });
@@ -129,4 +125,3 @@ app.post("/schedules/:username", (req, res) => {
 app.listen(PORT, () => {
   console.log(`Server listening on ${PORT}`);
 });
-
