@@ -1,4 +1,4 @@
-
+const WeeklySchedule = require("./WeeklySchedule.js")
 /**
  * function calculate schedule
  *    takes in a list of schedules
@@ -8,7 +8,7 @@
  * @returns mutually available schedule
  */
 function calculateSchedule(...schedules) {
-    const availableSchedule = new weeklySchedule();
+    const availableSchedule = new WeeklySchedule();
   
     //check for empty list of schedules
     if (schedules.length === 0) return availableSchedule;

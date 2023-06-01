@@ -1,7 +1,7 @@
 const express = require("express");
 const app = express();
 const cors = require("cors");
-const { default: weeklySchedule } = require("./WeeklySchedule");
+const WeeklySchedule = require("./WeeklySchedule");
 const PORT = 4000;
 
 app.use(cors());
@@ -125,3 +125,6 @@ app.post("/schedules/:username", (req, res) => {
 app.listen(PORT, () => {
   console.log(`Server listening on ${PORT}`);
 });
+
+
+module.exports = convertScheduleToObject, convertToScheduleArray;
