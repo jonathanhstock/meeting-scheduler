@@ -8,53 +8,68 @@ const WeeklySchedule = require("./WeeklySchedule.js")
  * @returns mutually available schedule
  */
 function calculateSchedule(...schedules) {
-  const availableSchedule = new WeeklySchedule();
+  //check for no schedules passed, return empty schedule
+  if (schedules.length === 0) {
+    return new WeeklySchedule();
+  }
 
-  //check for empty list of schedules
-  if (schedules.length === 0) return availableSchedule;
+  const mutuallyFreeSchedule = new WeeklySchedule();
+  // take days from the schedule
+  const days = Object.keys(mutuallyFreeSchedule.schedule);
+  console.log(JSON.stringify(schedules, null, 2));
 
-  const firstSched = schedules[0];
+  // flatten times into an array to easily handle per day
+  for (const day of days) {
+    const timeSlots = schedules.map((schedule) => schedule.getTimeSlots(day)).flat();
+    
+    console.log(JSON.stringify(timeSlots, null, 2));
 
-  // iterate through each day in each schedule
-  for (const day in firstSched.schedule) {
-    const tempTimes = firstSched.getTimeSlots(day);
+    //sort an compare
+    const sortedTimeSlots = timeSlots.sort((a, b) => {
+      return a.startTime.localeCompare(b.startTime);
+    });
 
-    // iterate through each timeSlot of each days times and
-    // compare times to see where mutually avaialbel times are
-    for (const timeSlot of tempTimes) {
-      let isAvail = true;
+    let currentStartTime = "";
+    let currentEndTime = "";
 
-      for (let i = 1; i < schedules.length; i++) {
-        const sched = schedules[i];
-        const otherTimes = sched.getTimeSlots(day);
-        const overlap = otherTimes.some(
-          (otherSlot) =>
-            (otherSlot.startTime >= timeSlot.startTime &&
-              otherSlot.startTime < timeSlot.endTime) ||
-            (otherSlot.endTime > timeSlot.startTime &&
-              otherSlot.endTime <= timeSlot.endTime)
-        );
-
-        // if no overlap detected in current times iteration break
-        if (!overlap) {
-          isAvail = false;
-          break;
+    for (const timeSlot of sortedTimeSlots) {
+      // assign new end time if current end time is not in the next time slot
+      if(currentEndTime !== "") {
+        if(currentEndTime > timeSlot.endTime) {
+          currentEndTime = timeSlot.endTime;
         }
       }
-  
-      // open time found
-      if (isAvail) {
-          availableSchedule.addTimeSlot(
-            day,
-            timeSlot.startTime,
-            timeSlot.endTime
-        );
+      // assign new start time if current start time is not in the next time slot
+      if(currentStartTime !== "") {
+        if(currentStartTime < timeSlot.startTime) {
+          currentStartTime = timeSlot.startTime;
+        }
       }
+      // assign times if no currentStartTime/ end time is set yet
+      if(currentEndTime === "") currentEndTime = timeSlot.endTime;
+      if(currentStartTime === "") currentStartTime = timeSlot.startTime;
+
+      // if (currentEndTime === "" || timeSlot.startTime > currentEndTime) {
+      //   if (currentStartTime !== "" && currentEndTime !== "") {
+      //     mutuallyFreeSchedule.addTimeSlot(day, currentStartTime, currentEndTime);
+      //   }
+      //   currentStartTime = timeSlot.startTime;
+      //   currentEndTime = timeSlot.endTime;
+      // } else if (timeSlot.endTime > currentEndTime) {
+      //   currentEndTime = timeSlot.endTime;
+      // }
+      console.log('current start time: ' + currentStartTime + ' current end time: ' + currentEndTime);
     }
+    
+    if (currentStartTime !== "" && currentEndTime !== "") {
+      mutuallyFreeSchedule.addTimeSlot(day, currentStartTime, currentEndTime);
+    }
+    console.log(mutuallyFreeSchedule.getTimeSlots(day));
   }
-  
-  return availableSchedule;
+
+  return mutuallyFreeSchedule;
 }
+
 
 
 module.exports = calculateSchedule;
