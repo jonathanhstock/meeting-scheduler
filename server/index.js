@@ -14,7 +14,7 @@ const createID = () => Math.random().toString(36).substring(2, 10);
 let scheduleCount = 0;
 
 function convertScheduleToObject(scheduleData) {
-  const convertedSchedule = new weeklySchedule();
+  const convertedSchedule = new WeeklySchedule();
 
   for(const daySlot of scheduleData) {
     const { day, slots } = daySlot;
@@ -127,4 +127,4 @@ app.listen(PORT, () => {
 });
 
 
-module.exports = convertScheduleToObject, convertToScheduleArray;
+module.exports = convertScheduleToObject, convertToScheduleArray, app;
