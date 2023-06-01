@@ -1,7 +1,8 @@
 const express = require("express");
 const app = express();
 const cors = require("cors");
-const WeeklySchedule = require("./WeeklySchedule");
+const WeeklySchedule = require("./WeeklySchedule.js");
+const calculateSchedule = require("./CalculateSchedule.js")
 const PORT = 4000;
 
 app.use(cors());
@@ -11,7 +12,7 @@ app.use(express.json());
 // need to find a way to do remote database so that information saves offline when server is not running
 const database = [];
 const createID = () => Math.random().toString(36).substring(2, 10);
-let scheduleCount = 0;
+let userCount = 0;
 
 function convertScheduleToObject(scheduleData) {
   const convertedSchedule = new WeeklySchedule();
@@ -59,6 +60,9 @@ app.post("/register", (req, res) => {
       email,
       timezone: {},
       schedule: [], // hold multiple schedules
+      schedules: [], // temp separate array to hold objects
+      currentSchedule: 0,
+      scheduleCount: 0,
     });
     return res.json({ message: "Account created successfully!" });
   }
@@ -89,8 +93,14 @@ app.post("/schedule/create", (req, res) => {
   let result = database.filter((db) => db.id === userId);
   result[0].timezone = timezone;
   result[0].schedule = schedule;
+  result[0].schedules.push(convertScheduleToObject(schedule));
+  console.log(result[0].schedules[result[0].currentSchedule].displaySchedule());
+  result[0].currentSchedule++;
+  result[0].scheduleCount++;
   res.json({ message: "OK" });
 });
+
+
 
 app.get("/schedules/:id", (req, res) => {
   const { id } = req.params;
@@ -106,6 +116,7 @@ app.get("/schedules/:id", (req, res) => {
   return res.json({ error_message: "Sign in again, an error occured..." });
 });
 
+
 app.post("/schedules/:username", (req, res) => {
   const { username } = req.body;
   let result = database.filter((db) => db.username === username);
@@ -120,6 +131,23 @@ app.post("/schedules/:username", (req, res) => {
     });
   }
   return res.json({ error_message: "User doesn't exist" });
+});
+
+app.post("/schedule/:username/calculate", (req, res) => {
+  const { username } = req.body;
+  let result = database.filter((db) => db.username === username);
+  if (result.length === 1) {
+    const mutualSchedule = new WeeklySchedule();
+    const schedules = result[0].schedules;
+    mutualSchedule = calculateSchedule(...schedules);
+    const mutualScheduleArr = convertToScheduleArray(mutualSchedule);
+    const mutualFiltered = mutualScheduleArr.filter((sch) => sch.startTime !== "");
+    return res.json({
+      message: 'Mutual schedule calculated successfully!',
+      schedule: mutualFiltered,
+      timezone: result[0].timezone,
+    });
+  }
 });
 
 app.listen(PORT, () => {

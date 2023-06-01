@@ -69,10 +69,10 @@ class WeeklySchedule {
     // display schedule to console for debugging purposes
     displaySchedule() {
       for(const day in this.schedule) {
-        console.log('${day}:');
+        console.log(day + ': ');
         const timeSlots = this.schedule[day];
         for(const timeSlot of timeSlots) {
-          console.log(' ${timeSlot.startTime} - ${timeSlot.endTime}');
+          console.log(timeSlot.startTime + ' - ' + timeSlot.endTime);
         } 
       }
     }
