@@ -1,7 +1,20 @@
 import { render, fireEvent } from "@testing-library/react";
 import LoginForm from "./LoginForm";
 
-test("renders login form and allows form submission", () => {
+test("renders login form", () => {
+  const handleSubmit = jest.fn(); // Mock function to act as submit handler
+
+  const { getByLabelText, getByText } = render(
+    <LoginForm onSubmit={handleSubmit} />
+  );
+
+  // Check if form elements are rendered correctly
+  expect(getByLabelText("Email")).toBeInTheDocument();
+  expect(getByLabelText("Password")).toBeInTheDocument();
+  expect(getByText("Submit")).toBeInTheDocument();
+});
+
+test("allows form submission with valid data", () => {
   const handleSubmit = jest.fn(); // Mock function to act as submit handler
 
   const { getByLabelText, getByText } = render(
