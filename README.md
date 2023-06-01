@@ -1,3 +1,9 @@
+## A meeting scheduler application to collaborate with friends
+- Allows creation, reading, updating and deletion of schedules
+
+- Emails schedule using emailjs API
+
+
 ## How to run this project
 
 - Run `npm install` in both folders (client and server) to install all their dependencies.
