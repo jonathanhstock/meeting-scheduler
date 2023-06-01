@@ -12,7 +12,6 @@ describe("Signup component", () => {
     fireEvent.change(emailInput, { target: { value: "" } });
     fireEvent.submit(form);
     expect(screen.getByText("Email is required")).toBeInTheDocument();
-    // Add additional assertions here to check if the error for empty email is displayed
   });
 
   test("should display error for invalid email", () => {
@@ -24,7 +23,6 @@ describe("Signup component", () => {
     fireEvent.change(emailInput, { target: { value: "invalidemail" } });
     fireEvent.submit(form);
     expect(screen.getByText("Invalid email")).toBeInTheDocument();
-    // Add additional assertions here to check if the error for invalid email is displayed
   });
 
   test("should handle valid email submission", () => {
@@ -36,6 +34,5 @@ describe("Signup component", () => {
     fireEvent.change(emailInput, { target: { value: "test@example.com" } });
     fireEvent.submit(form);
     expect(screen.queryByText("Invalid email")).toBeNull();
-    // Add additional assertions here to check if the email was successfully submitted
   });
 });
