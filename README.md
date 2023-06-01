@@ -13,6 +13,10 @@
 
 - Unit tests have been created under the tests folder 
 
+- To run the tests navigate in a terminal window to the project directory
+
+- Then run the command `npx jest __tests__/test.js` where test.js is replaced by one of the tests you want to run
+
 # Contact
 
 - Any questions regarding the web application, please contact **jstock@scu.edu**
