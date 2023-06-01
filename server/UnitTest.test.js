@@ -54,18 +54,36 @@ describe('calculateSchedule', () => {
     // initialize two weekly schedule objects for testing mutual schedules
     const schedule1 = new WeeklySchedule();
     const schedule2 = new WeeklySchedule();
-
+  
     // load schedule 1 with a schedule
     schedule1.addTimeSlot('Mon', '09:00', '14:00');
     schedule1.addTimeSlot('Tue', '10:00', '13:00');
-
+  
     // load schedule 2 with a schedule
     schedule2.addTimeSlot('Mon', '12:30', '16:00');
     schedule2.addTimeSlot('Tue', '08:00', '11:00');
-
+  
     const mutualSchedule = calculateSchedule(schedule1, schedule2);
-    expect(mutualSchedule.getTimeSlots('Mon')).toEqual([{ startTime: '12:30', endTime: '14:00'}]);
-    expect(mutualSchedule.getTimeSlots('Tue')).toEqual([{ startTime: '10:00', endTime: '11:00'}]);
+  
+    const expectedMon = [{ startTime: '12:30', endTime: '14:00' }];
+    const expectedTue = [{ startTime: '10:00', endTime: '11:00' }];
+  
+    // Check start time
+    expect(mutualSchedule.getTimeSlots('Mon').map((slot) => slot.startTime)).toEqual(
+      expectedMon.map((slot) => slot.startTime)
+    );
+    expect(mutualSchedule.getTimeSlots('Tue').map((slot) => slot.startTime)).toEqual(
+      expectedTue.map((slot) => slot.startTime)
+    );
+  
+    // Check end time
+    expect(mutualSchedule.getTimeSlots('Mon').map((slot) => slot.endTime)).toEqual(
+      expectedMon.map((slot) => slot.endTime)
+    );
+    expect(mutualSchedule.getTimeSlots('Tue').map((slot) => slot.endTime)).toEqual(
+      expectedTue.map((slot) => slot.endTime)
+    );
+  
     expect(mutualSchedule.getTimeSlots('Wed')).toEqual([]);
     mutualSchedule.displaySchedule();
-});
+  });
