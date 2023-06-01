@@ -60,81 +60,92 @@ const Dashboard = () => {
 
   return (
     <div className="container">
-  <nav>
-    <h2>Jegg-Meet</h2>
-    <button
-      onClick={() => navigate(`/profile/${localStorage.getItem("_id")}`)}
-      className="button"
-    >
-      Saved Schedule
-    </button>
+      <nav>
+        <h2>Jegg-Meet</h2>
+        <button onClick={() => navigate(`#`)} className="button">
+          Add Schedule
+        </button>
+        <button
+          onClick={() => navigate(`/profile/${localStorage.getItem("_id")}`)}
+          className="button"
+        >
+          Saved Schedule
+        </button>
 
-    <button onClick={handleLogout} className="button">
-      Logout
-    </button>
-  </nav>
-  <main>
-    <h2>Select your availability</h2>
+        <button onClick={handleLogout} className="button">
+          Logout
+        </button>
+      </nav>
+      <main>
+        <h2>Select your availability</h2>
 
-    <div className="block">
-      <p>Select a timezone</p>
-      <TimezoneSelect value={selectedTimezone} onChange={setSelectedTimezone} />
+        <div className="block">
+          <p>Select a timezone</p>
+          <TimezoneSelect
+            value={selectedTimezone}
+            onChange={setSelectedTimezone}
+          />
 
-      {schedule.map((sch, id) => (
-        <div className="day-row" key={id}>
-          <p>{sch.day}</p>
-          <div className="time-slots">
-            {sch.slots.map((slot, slotId) => (
-              <div className="time-slot" key={slotId}>
-                <div>
-                  <label htmlFor={`startTime-${id}-${slotId}`}>Start Time</label>
-                  <select
-                    name="startTime"
-                    id={`startTime-${id}-${slotId}`}
-                    onChange={(e) => handleTimeChange(e, id, slotId)}
-                    className="input"
-                  >
-                    {time.map((t) => (
-                      <option key={t.id} value={t.t} id={t.id}>
-                        {t.t}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-                <div>
-                  <label htmlFor={`endTime-${id}-${slotId}`}>End Time</label>
-                  <select
-                    name="endTime"
-                    id={`endTime-${id}-${slotId}`}
-                    onChange={(e) => handleTimeChange(e, id, slotId)}
-                    className="input"
-                  >
-                    {time.map((t) => (
-                      <option key={t.id} value={t.t} id={t.id}>
-                        {t.t}
-                      </option>
-                    ))}
-                  </select>
-                </div>
+          {schedule.map((sch, id) => (
+            <div className="day-row" key={id}>
+              <p>{sch.day}</p>
+              <div className="time-slots">
+                {sch.slots.map((slot, slotId) => (
+                  <div className="time-slot" key={slotId}>
+                    <div>
+                      <label htmlFor={`startTime-${id}-${slotId}`}>
+                        Start Time
+                      </label>
+                      <select
+                        name="startTime"
+                        id={`startTime-${id}-${slotId}`}
+                        onChange={(e) => handleTimeChange(e, id, slotId)}
+                        className="input"
+                      >
+                        {time.map((t) => (
+                          <option key={t.id} value={t.t} id={t.id}>
+                            {t.t}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                    <div>
+                      <label htmlFor={`endTime-${id}-${slotId}`}>
+                        End Time
+                      </label>
+                      <select
+                        name="endTime"
+                        id={`endTime-${id}-${slotId}`}
+                        onChange={(e) => handleTimeChange(e, id, slotId)}
+                        className="input"
+                      >
+                        {time.map((t) => (
+                          <option key={t.id} value={t.t} id={t.id}>
+                            {t.t}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                  </div>
+                ))}
+                <button
+                  onClick={() => handleAddTimeSlot(id)}
+                  className="button add-time-slot"
+                >
+                  Add More Time Slot
+                </button>
               </div>
-            ))}
-            <button onClick={() => handleAddTimeSlot(id)} className="button add-time-slot">
-              Add More Time Slot
-            </button>
-          </div>
+            </div>
+          ))}
         </div>
-      ))}
+
+        <div>
+          <button onClick={handleSaveSchedules} className="button save-button">
+            SAVE SCHEDULES
+          </button>
+        </div>
+      </main>
     </div>
-
-    <div>
-      <button onClick={handleSaveSchedules} className="button save-button">
-        SAVE SCHEDULES
-      </button>
-    </div>
-  </main>
-</div>
-
-
   );
 };
 

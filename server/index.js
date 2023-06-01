@@ -1,6 +1,7 @@
 const express = require("express");
 const app = express();
 const cors = require("cors");
+const { default: weeklySchedule } = require("./WeeklySchedule");
 const PORT = 4000;
 
 app.use(cors());
@@ -10,7 +11,40 @@ app.use(express.json());
 // need to find a way to do remote database so that information saves offline when server is not running
 const database = [];
 const createID = () => Math.random().toString(36).substring(2, 10);
-scheduleCount = 0;
+let scheduleCount = 0;
+
+function convertScheduleToObject(scheduleData) {
+  const convertedSchedule = new weeklySchedule();
+
+  for(const daySlot of scheduleData) {
+    const { day, slots } = daySlot;
+    for(const timeSlot of slots) {
+      const { startTime, endTime } = timeSlot;
+      convertedSchedule.addTimeSlot(day, startTime, endTime);
+    }
+  }
+
+  return convertedSchedule;
+}
+
+function convertToScheduleArray(weeklyScheduleObj) {
+  const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+  const scheduleArray = [];
+
+  for (const day of days) {
+    const timeSlots = weeklyScheduleObj.getTimeSlots(day);
+    const daySlot = {
+      day,
+      slots: timeSlots.map((timeSlot) => ({
+        startTime: timeSlot.startTime,
+        endTime: timeSlot.endTime,
+      })),
+    };
+    scheduleArray.push(daySlot);
+  }
+
+  return scheduleArray;
+}
 
 app.post("/register", (req, res) => {
   const { username, email, password } = req.body;

@@ -4,16 +4,18 @@
  *    schedule dictionary with lists of time slots
  *
  */
-export default class weeklySchedule {
+class WeeklySchedule {
     // schedule data structure
     //    holds time slots in list of duples
     constructor() {
       this.schedule = {
-        Monday: [],
-        Tuesday: [],
-        Wednesday: [],
-        Thursday: [],
-        Friday: [],
+        Sun: [],
+        Mon: [],
+        Tue: [],
+        Wed: [],
+        Thu: [],
+        Fri: [],
+        Sat: [],
       };
     }
   
@@ -67,3 +69,6 @@ export default class weeklySchedule {
     // display schedule to console for debugging purposes
     displaySchedule() {}
   }
+
+
+  module.exports = WeeklySchedule;
