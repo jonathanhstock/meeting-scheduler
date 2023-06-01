@@ -14,6 +14,11 @@ const database = [];
 const createID = () => Math.random().toString(36).substring(2, 10);
 let userCount = 0;
 
+/**
+ * 
+ * @param scheduleData
+ * @returns converted schedule array to an object of class WeeklySchedule
+ */
 function convertScheduleToObject(scheduleData) {
   const convertedSchedule = new WeeklySchedule();
 
@@ -28,6 +33,11 @@ function convertScheduleToObject(scheduleData) {
   return convertedSchedule;
 }
 
+/**
+ * 
+ * @param weeklyScheduleObj
+ * @returns a converted array from given WeeklySchedule object
+ */
 function convertToScheduleArray(weeklyScheduleObj) {
   const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
   const scheduleArray = [];
@@ -150,4 +160,9 @@ app.listen(PORT, () => {
 });
 
 
-module.exports = convertScheduleToObject, convertToScheduleArray, app;
+
+module.exports = { 
+  convertScheduleToObject, 
+  convertToScheduleArray, 
+  app 
+};
