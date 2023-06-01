@@ -1,7 +1,7 @@
 const express = require("express");
 const app = express();
 const cors = require("cors");
-const { default: weeklySchedule } = require("./WeeklySchedule");
+const WeeklySchedule = require("./WeeklySchedule");
 const PORT = 4000;
 
 app.use(cors());
@@ -14,7 +14,7 @@ const createID = () => Math.random().toString(36).substring(2, 10);
 let scheduleCount = 0;
 
 function convertScheduleToObject(scheduleData) {
-  const convertedSchedule = new weeklySchedule();
+  const convertedSchedule = new WeeklySchedule();
 
   for(const daySlot of scheduleData) {
     const { day, slots } = daySlot;
@@ -125,3 +125,6 @@ app.post("/schedules/:username", (req, res) => {
 app.listen(PORT, () => {
   console.log(`Server listening on ${PORT}`);
 });
+
+
+module.exports = convertScheduleToObject, convertToScheduleArray, app;
