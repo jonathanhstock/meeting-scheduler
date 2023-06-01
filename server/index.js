@@ -100,7 +100,20 @@ app.post("/schedule/create", (req, res) => {
   res.json({ message: "OK" });
 });
 
-
+app.post("/schedule/:id/calculate", (req, res) => {
+  const { id } = req.body;
+  let result = database.filter((db) => db.id === id);
+  if (result.length === 1) {
+    const mutualSchedule = new WeeklySchedule();
+    const schedules = result[0].schedules;
+    mutualSchedule = calculateSchedule(...schedules);
+    const mutualScheduleArr = convertToScheduleArray(mutualSchedule);
+    return res.json({
+      message: 'mutual schedule calculated successfully',
+      schedule: mutualScheduleArr,
+    });
+  }
+});
 
 app.get("/schedules/:id", (req, res) => {
   const { id } = req.params;
@@ -116,7 +129,6 @@ app.get("/schedules/:id", (req, res) => {
   return res.json({ error_message: "Sign in again, an error occured..." });
 });
 
-
 app.post("/schedules/:username", (req, res) => {
   const { username } = req.body;
   let result = database.filter((db) => db.username === username);
@@ -131,23 +143,6 @@ app.post("/schedules/:username", (req, res) => {
     });
   }
   return res.json({ error_message: "User doesn't exist" });
-});
-
-app.post("/schedule/:username/calculate", (req, res) => {
-  const { username } = req.body;
-  let result = database.filter((db) => db.username === username);
-  if (result.length === 1) {
-    const mutualSchedule = new WeeklySchedule();
-    const schedules = result[0].schedules;
-    mutualSchedule = calculateSchedule(...schedules);
-    const mutualScheduleArr = convertToScheduleArray(mutualSchedule);
-    const mutualFiltered = mutualScheduleArr.filter((sch) => sch.startTime !== "");
-    return res.json({
-      message: 'Mutual schedule calculated successfully!',
-      schedule: mutualFiltered,
-      timezone: result[0].timezone,
-    });
-  }
 });
 
 app.listen(PORT, () => {
