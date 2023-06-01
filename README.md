@@ -4,6 +4,7 @@
 - Allows creation, reading, updating and deletion of schedules
 
 - Emails schedule using emailjs API
+
 ## How to run this project
 - Split a terminal up into two different tabs and type and enter `cd client` and `cd server` into separate terminals.
 
@@ -15,7 +16,7 @@
 
 - Next you can create an account with an email, username, and password which will save to the local database
 
-# Testing
+## Testing
 
 - Unit tests have been created under the tests folder 
 
@@ -27,6 +28,6 @@
 
 - Run the command `npx jest` to test all of the tests at once
 
-# Contact
+## Contact
 
 - Any questions regarding the web application, please contact **jstock@scu.edu** or **mdavenport@scu.edu**
