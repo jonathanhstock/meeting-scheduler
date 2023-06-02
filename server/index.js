@@ -110,7 +110,7 @@ app.post("/schedule/create", (req, res) => {
   res.json({ message: "OK" });
 });
 
-app.get("/schedule/calculate", (req, res) => {
+app.get("/schedules/calculate/:id", (req, res) => {
   const { id } = req.body;
   let result = database.filter((db) => db.id === id);
   if (result.length === 1) {
