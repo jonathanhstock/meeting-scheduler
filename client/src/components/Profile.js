@@ -46,7 +46,7 @@ const Profile = () => {
         <button onClick={() => navigate(`/book/${username}`)} className="button">
           Email Schedule
         </button>
-        <button onClick={() => navigate(`/schedule/calculate`)} className="button">
+        <button onClick={() => navigate(`/schedules/calculate/${id}`)} className="button">
           Calculate Your Mutual Schedule
         </button>
       </div>

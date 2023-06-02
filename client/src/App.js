@@ -7,6 +7,7 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Profile from "./components/Profile";
 import BookUser from "./components/BookUser";
+import Calculate from "./components/Calculate";
 
 const App = () => {
 	return (
@@ -18,6 +19,7 @@ const App = () => {
 					<Route path='/dashboard' element={<Dashboard />} />
 					<Route path='/profile/:id' element={<Profile />} />
 					<Route path='/book/:user' element={<BookUser />} />
+					<Route path='/schedules/calculate/:id' element={<Calculate />} />
 				</Routes>
 			</BrowserRouter>
 			<ToastContainer />
