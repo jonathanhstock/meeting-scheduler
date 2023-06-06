@@ -49,6 +49,9 @@ const Profile = () => {
         <button onClick={() => navigate(`/calculate/${id}`)} className="button">
           Calculate Your Mutual Schedule
         </button>
+        <button onClick={() => navigate(`/viewall/${id}`)} className="button">
+          View All Schedules
+        </button>
       </div>
       <p>Here is your schedule: - {timezone}</p>
       <table className="table">
