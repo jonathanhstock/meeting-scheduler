@@ -136,6 +136,10 @@ app.get("/calculate/:id", (req, res) => {
   }
 });
 
+/*
+ * route for viewing latest schedule from user 
+ *    and navigation from here for user
+*/
 app.get("/schedules/:id", (req, res) => {
   const { id } = req.params;
   let result = database.filter((db) => db.id === id);
@@ -148,6 +152,23 @@ app.get("/schedules/:id", (req, res) => {
     });
   }
   return res.json({ error_message: "Sign in again, an error occured..." });
+});
+
+
+/*
+ * route for viewing all schedules for the user
+*/
+app.get("/viewAllSchedules/:id", (req, res) => {
+  const { id } = req.params;
+  let result = database.filter((db) => db.id === id);
+  if(result.length === 1) {
+    return res.json({
+      message: "Schedules successfully retrieved!",
+      sshedules: result[0].schedules,
+      username: result[0].username,
+      timezone: result[0].timezone,
+    });
+  }
 });
 
 app.post("/schedules/:username", (req, res) => {
