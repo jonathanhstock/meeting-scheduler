@@ -110,17 +110,28 @@ app.post("/schedule/create", (req, res) => {
   res.json({ message: "OK" });
 });
 
-app.get("/schedules/calculate/:id", (req, res) => {
-  const { id } = req.body;
+app.get("/calculate/:id", (req, res) => {
+  console.log("GET successful");
+
+  const { id } = req.params;
   let result = database.filter((db) => db.id === id);
   if (result.length === 1) {
-    const mutualSchedule = new WeeklySchedule();
+    console.log("User Found");
+
+    let mutualSchedule = new WeeklySchedule();
     const schedules = result[0].schedules;
     mutualSchedule = calculateSchedule(...schedules);
     const mutualScheduleArr = convertToScheduleArray(mutualSchedule);
+
+    // debugging purposes
+    console.log("Mutual array calculated: ")
+    console.log(JSON.stringify(mutualScheduleArr, null, 2));
+
     return res.json({
-      message: 'mutual schedule calculated successfully',
+      message: 'Mutual schedule calculated successfully',
       schedule: mutualScheduleArr,
+      username: result[0].username,
+      timezone: result[0].timezone,
     });
   }
 });

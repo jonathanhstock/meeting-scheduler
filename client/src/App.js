@@ -19,7 +19,7 @@ const App = () => {
 					<Route path='/dashboard' element={<Dashboard />} />
 					<Route path='/profile/:id' element={<Profile />} />
 					<Route path='/book/:user' element={<BookUser />} />
-					<Route path='/schedules/calculate/:id' element={<Calculate />} />
+					<Route path='/calculate/:id' element={<Calculate />} />
 				</Routes>
 			</BrowserRouter>
 			<ToastContainer />
