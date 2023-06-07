@@ -164,7 +164,7 @@ app.get("/viewAllSchedules/:id", (req, res) => {
   if(result.length === 1) {
     return res.json({
       message: "Schedules successfully retrieved!",
-      sshedules: result[0].schedules,
+      schedules: result[0].schedules,
       username: result[0].username,
       timezone: result[0].timezone,
     });

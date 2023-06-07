@@ -8,6 +8,7 @@ import "react-toastify/dist/ReactToastify.css";
 import Profile from "./components/Profile";
 import BookUser from "./components/BookUser";
 import Calculate from "./components/Calculate";
+import ViewAll from "./components/ViewAll";
 
 const App = () => {
 	return (
@@ -20,6 +21,7 @@ const App = () => {
 					<Route path='/profile/:id' element={<Profile />} />
 					<Route path='/book/:user' element={<BookUser />} />
 					<Route path='/calculate/:id' element={<Calculate />} />
+					<Route path='/viewall/:id' element={<ViewAll />} />
 				</Routes>
 			</BrowserRouter>
 			<ToastContainer />
