@@ -74,14 +74,14 @@ const Calculate = () => {
                 <tr key={daySlot.day}>
                   <td style={{ fontWeight: "bold" }}>{daySlot.day.toUpperCase()}</td>
                   <td>
-                    {daySlot.slots.startTime !== "" ? (
+                    {daySlot.slots[0].startTime !== "" ? (
                       daySlot.slots.map((timeSlot, index) => <div key={index}> {timeSlot.startTime}</div>) 
                     ) : (
                       <div>Unavailable</div>
                     )}
                   </td>
                   <td>
-                    {daySlot.slots.endTime !== "" ? (
+                    {daySlot.slots[0].endTime !== "" ? (
                       daySlot.slots.map((timeSlot, index) => <div key={index}>{timeSlot.endTime}</div>)
                     ) : (
                       <div>Unavailable</div>

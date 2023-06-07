@@ -108,7 +108,7 @@ export default ViewAll;
 
 
 
-//correct formatting that works on Calculate.js
+// correct formatting that works on Calculate.js
 
 // {schedules.map((daySlot) => (
 //   <tr key={daySlot.day}>

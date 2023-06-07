@@ -57,30 +57,7 @@ function convertToScheduleArray(weeklyScheduleObj) {
   return scheduleArray;
 }
 
-// function convertToScheduleArray(weeklyScheduleObj) {
-//   const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-//   const scheduleArray = days.map((day) => ({
-//     day,
-//     slots: [{ startTime: "", endTime: "" }],
-//   }));
 
-//   const timeSlotsByDay = weeklyScheduleObj.getTimeSlotsByDay();
-
-//   for (const day of Object.keys(timeSlotsByDay)) {
-//     const index = days.indexOf(day);
-//     if (index !== -1) {
-//       const timeSlots = timeSlotsByDay[day];
-//       if (timeSlots.length > 0) {
-//         scheduleArray[index].slots = timeSlots.map((timeSlot) => ({
-//           startTime: timeSlot.startTime,
-//           endTime: timeSlot.endTime,
-//         }));
-//       }
-//     }
-//   }
-
-//   return scheduleArray;
-// }
 
 
 app.post("/register", (req, res) => {
