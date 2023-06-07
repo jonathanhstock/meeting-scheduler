@@ -148,10 +148,6 @@ app.get("/calculate/:id", (req, res) => {
     const schedules = result[0].schedules;
     mutualSchedule = calculateSchedule(...schedules);
     const mutualScheduleArr = convertToScheduleArray(mutualSchedule);
-
-    //DELETE THIS 
-    result[0].schedule = mutualScheduleArr;
-    //DELETE THIS
     
     // debugging purposes
     console.log("Mutual array calculated: ")
