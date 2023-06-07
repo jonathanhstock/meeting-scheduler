@@ -34,15 +34,6 @@ const ViewAll = () => {
     displayUserScheds();
   }, [id]);
 
-  // useEffect(() => {
-  //   function extractScheds() {
-  //     if(schedules) {
-
-  //     }
-  //   }
-  //   extractScheds();
-  // }, [schedules]);
-
   useEffect(() => {
     if(!localStorage.getItem("_id")) {
       navigate("/");
@@ -117,45 +108,24 @@ export default ViewAll;
 
 
 
-// return (
-//   <main className="container">
-//     {loading ? (
-//       <p>Loading...</p>
-//     ) : (
-//       <div className="block">
-//         <h2>Hey, {username}</h2>
+//correct formatting that works on Calculate.js
 
-//         <div className="button-container">
-//           <button onClick={() => navigate("/dashboard")} className="button">
-//             Dashboard
-//           </button>
-//           <button
-//             onClick={() => navigate(`/book/${username}`)}
-//             className="button"
-//           >
-//             Email Schedule
-//           </button>
-//         </div>
-
-//         <p>Here are all your schedules: - {timezone}</p>
-
-//         <table className="table">
-//           <tbody>
-//             {schedules.map((schedule, index) => (
-//               <tr key={index}>
-//                 <td>{schedule.day}</td>
-//                 <td>
-//                   {schedule.slots.map((timeSlot, index) => (
-//                     <div key={index}>
-//                       Start: {timeSlot.startTime}, End: {timeSlot.endTime}
-//                     </div>
-//                   ))}
-//                 </td>
-//               </tr>
-//             ))}
-//           </tbody>
-//         </table>
-//       </div>
-//     )}
-//   </main>
-// );
+// {schedules.map((daySlot) => (
+//   <tr key={daySlot.day}>
+//     <td style={{ fontWeight: "bold" }}>{daySlot.day.toUpperCase()}</td>
+//     <td>
+//       {daySlot.slots.startTime !== "" ? (
+//         daySlot.slots.map((timeSlot, index) => <div key={index}> {timeSlot.startTime}</div>) 
+//       ) : (
+//         <div>Unavailable</div>
+//       )}
+//     </td>
+//     <td>
+//       {daySlot.slots.endTime !== "" ? (
+//         daySlot.slots.map((timeSlot, index) => <div key={index}>{timeSlot.endTime}</div>)
+//       ) : (
+//         <div>Unavailable</div>
+//       )}
+//     </td>
+//   </tr>
+// ))}
