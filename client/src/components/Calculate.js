@@ -47,7 +47,7 @@ const Calculate = () => {
     if (!localStorage.getItem("_id")) {
       navigate("/");
     }
-  }, [navigate]);
+  }, [navigate, schedules]);
 
   return (
     <main className="container">
