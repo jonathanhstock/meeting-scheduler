@@ -28,7 +28,7 @@ const Calculate = () => {
           setSchedules(data.schedules);
           setTimezone(data.timezone.label);
           setLoading(false);
-          console.log(JSON.stringify(schedules, null, 2))
+          // console.log(JSON.stringify(schedules, null, 2))
         })
         .catch((err) => console.error(err));
       }
@@ -42,6 +42,8 @@ const Calculate = () => {
 
   
   useEffect(() => {
+    console.log("Schedules: ")
+    console.log(JSON.stringify(schedules, null, 2))
     if (!localStorage.getItem("_id")) {
       navigate("/");
     }
@@ -68,7 +70,18 @@ const Calculate = () => {
           <p> Here is your calculated mutual schedule: - {timezone}</p>
           <table className="table">
             <tbody>
-
+              {schedules.map((daySlot) => (
+                <tr key={daySlot.day}>
+                  <td>{daySlot.day}</td>
+                  <td>
+                    {daySlot.slots.map((timeSlot, index) => (
+                      <div key={index}>
+                        Start: {timeSlot.startTime}, End: {timeSlot.endTime}
+                      </div>
+                    ))}
+                  </td>
+                </tr>
+              ))}
             </tbody>
           </table>
         </div>
