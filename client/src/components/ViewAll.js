@@ -67,34 +67,45 @@ const ViewAll = () => {
         <div className="block">
           <h2>Hey, {username}</h2>
 
-
           <div className="button-container">
             <button onClick={() => navigate("/dashboard")} className="button">
               Dashboard
             </button>
-            <button onClick={() => navigate(`/book/${username}`)} className="button">
+            <button
+              onClick={() => navigate(`/book/${username}`)}
+              className="button"
+            >
               Email Schedule
             </button>
           </div>
 
-          <p> Here are all your schedules: - {timezone}</p>
+          <p>Here are all your schedules: - {timezone}</p>
 
-          {/* <table className="table">
-            <tbody>
-              {schedules.map((daySlot) => (
-                <tr key={daySlot.day}>
-                  <td>{daySlot.day}</td>
-                  <td>
-                    {daySlot.slots.map((timeSlot, index) => (
-                      <div key={index}>
-                        Start: {timeSlot.startTime}, End: {timeSlot.endTime}
-                      </div>
-                    ))}
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table> */}
+          {schedules && schedules.map((schedule, index) => (
+            <div key={index}>
+              <h3>Schedule {index + 1}</h3>
+              <table className="table">
+                <tbody>
+                  <tr>
+                    <th>Day</th>
+                    <th>Time Slots</th>
+                  </tr>
+                  {schedule.map((daySlot, dayIndex) => (
+                    <tr key={dayIndex}>
+                      <td>{daySlot.day}</td>
+                      <td>
+                        {daySlot.slots.map((timeSlot, slotIndex) => (
+                          <div key={slotIndex}>
+                            Start: {timeSlot.startTime}, End: {timeSlot.endTime}
+                          </div>
+                        ))}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          ))}
         </div>
       )}
     </main>
