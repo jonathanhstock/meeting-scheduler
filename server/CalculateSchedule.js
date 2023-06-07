@@ -20,6 +20,9 @@ function calculateSchedule(...schedules) {
 
   // flatten times into an array to easily handle per day
   for (const day of days) {
+    // boolean to handle finding an empty timeslot,
+    // this flag will ensure that the slots are not added if 
+    //    a schedule has no available times for a specified day
     let foundEmpty = false;
     const timeSlots = schedules.map((schedule) => schedule.getTimeSlots(day)).flat();
     
