@@ -15,7 +15,7 @@ const Calculate = () => {
   const [schedules, setSchedules] = useState([]);
   const [loading, setLoading] = useState(true);
   const [username, setUsername] = useState("");
-  const [tiemzone, setTimezone] = useState("");
+  const [timezone, setTimezone] = useState("");
 
   //function for calculating the user schedule
   useEffect (() => {
@@ -28,6 +28,7 @@ const Calculate = () => {
           setSchedules(data.schedules);
           setTimezone(data.timezone.label);
           setLoading(false);
+          console.log(JSON.stringify(schedules, null, 2))
         })
         .catch((err) => console.error(err));
       }
@@ -35,17 +36,43 @@ const Calculate = () => {
     calculateUserSched();
   }, [id]);
 
+  // just figured out for above. schedules must match what the
+  // res.json returns for variable name.. dont know if it fixed
+  // or not
+
+  
+  useEffect(() => {
+    if (!localStorage.getItem("_id")) {
+      navigate("/");
+    }
+  }, [navigate]);
+
   return (
-    <main className="contatiner">
+    <main className="container">
+      {loading ? (
+        <p>Loading...</p>
+      ) : (
         <div className="block">
           <h2>Hey, {username}</h2>
-            <h1>
-              Hello World
-            </h1>
+
+
+          <div className="button-container">
+            <button onClick={() => navigate("/dashboard")} className="button">
+              Dashboard
+            </button>
+            <button onClick={() => navigate(`/book/${username}`)} className="button">
+              Email Schedule
+            </button>
+          </div>
+
+          <p> Here is your calculated mutual schedule: - {timezone}</p>
+          <table className="table">
+            <tbody>
+
+            </tbody>
+          </table>
         </div>
-        <div className="block">
-          <p>Here is your schedule: - </p>
-        </div>
+      )}
     </main>
   );
 }
