@@ -14,7 +14,7 @@ const ViewAll = () => {
   const [schedules, setSchedules] = useState([]);
   const [loading, setLoading] = useState(true);
   const [username, setUsername] = useState("");
-  const [tiemzone, setTimezone] = useState("");
+  const [timezone, setTimezone] = useState("");
 
   //function for calculating the user schedule
   useEffect (() => {
@@ -34,19 +34,117 @@ const ViewAll = () => {
     displayUserScheds();
   }, [id]);
 
+  // useEffect(() => {
+  //   function extractScheds() {
+  //     if(schedules) {
+
+  //     }
+  //   }
+  //   extractScheds();
+  // }, [schedules]);
+
+  useEffect(() => {
+    if(!localStorage.getItem("_id")) {
+      navigate("/");
+    }
+  }, [navigate]);
+
+  // debugging using console --> view all schedules returned
+  useEffect(() => {
+    if(schedules.length > 0) {
+      for(const sched of schedules) {
+        console.log(JSON.stringify(sched, null, 2));
+      }
+    }
+    else console.log("Error: length of schedules is 0");
+  }, [schedules]);
+
   return (
-    <main className="contatiner">
+    <main className="container">
+      {loading ? (
+        <p>Loading...</p>
+      ) : (
         <div className="block">
           <h2>Hey, {username}</h2>
-            <h1>
-              Hello World
-            </h1>
+
+
+          <div className="button-container">
+            <button onClick={() => navigate("/dashboard")} className="button">
+              Dashboard
+            </button>
+            <button onClick={() => navigate(`/book/${username}`)} className="button">
+              Email Schedule
+            </button>
+          </div>
+
+          <p> Here are all your schedules: - {timezone}</p>
+
+          {/* <table className="table">
+            <tbody>
+              {schedules.map((daySlot) => (
+                <tr key={daySlot.day}>
+                  <td>{daySlot.day}</td>
+                  <td>
+                    {daySlot.slots.map((timeSlot, index) => (
+                      <div key={index}>
+                        Start: {timeSlot.startTime}, End: {timeSlot.endTime}
+                      </div>
+                    ))}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table> */}
         </div>
-        <div className="block">
-          <p>Here are all of your schedules: </p>
-        </div>
+      )}
     </main>
   );
 }
 
 export default ViewAll;
+
+
+
+
+// return (
+//   <main className="container">
+//     {loading ? (
+//       <p>Loading...</p>
+//     ) : (
+//       <div className="block">
+//         <h2>Hey, {username}</h2>
+
+//         <div className="button-container">
+//           <button onClick={() => navigate("/dashboard")} className="button">
+//             Dashboard
+//           </button>
+//           <button
+//             onClick={() => navigate(`/book/${username}`)}
+//             className="button"
+//           >
+//             Email Schedule
+//           </button>
+//         </div>
+
+//         <p>Here are all your schedules: - {timezone}</p>
+
+//         <table className="table">
+//           <tbody>
+//             {schedules.map((schedule, index) => (
+//               <tr key={index}>
+//                 <td>{schedule.day}</td>
+//                 <td>
+//                   {schedule.slots.map((timeSlot, index) => (
+//                     <div key={index}>
+//                       Start: {timeSlot.startTime}, End: {timeSlot.endTime}
+//                     </div>
+//                   ))}
+//                 </td>
+//               </tr>
+//             ))}
+//           </tbody>
+//         </table>
+//       </div>
+//     )}
+//   </main>
+// );

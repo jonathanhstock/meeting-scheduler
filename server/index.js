@@ -187,14 +187,25 @@ app.get("/schedules/:id", (req, res) => {
 app.get("/viewAllSchedules/:id", (req, res) => {
   const { id } = req.params;
   let result = database.filter((db) => db.id === id);
+  let schedArrays = [];
+  if(result[0].schedules.length > 0) {
+    for(sched of result[0].schedules) {
+      schedArrays.push(convertToScheduleArray(sched));
+    }
+  }
+  else {
+    emptySched = new WeeklySchedule();
+    schedArrays.push(emptySched);
+  }
   if(result.length === 1) {
     return res.json({
       message: "Schedules successfully retrieved!",
-      schedules: result[0].schedules,
+      schedules: schedArrays,
       username: result[0].username,
       timezone: result[0].timezone,
     });
   }
+  return res.json({error_message: "Error returning schedules"});
 });
 
 app.post("/schedules/:username", (req, res) => {
