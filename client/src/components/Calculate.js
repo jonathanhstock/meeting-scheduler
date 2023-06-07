@@ -72,13 +72,20 @@ const Calculate = () => {
             <tbody>
               {schedules.map((daySlot) => (
                 <tr key={daySlot.day}>
-                  <td>{daySlot.day}</td>
+                  <td style={{ fontWeight: "bold" }}>{daySlot.day.toUpperCase()}</td>
                   <td>
-                    {daySlot.slots.map((timeSlot, index) => (
-                      <div key={index}>
-                        Start: {timeSlot.startTime}, End: {timeSlot.endTime}
-                      </div>
-                    ))}
+                    {daySlot.slots.startTime !== "" ? (
+                      daySlot.slots.map((timeSlot, index) => <div key={index}> {timeSlot.startTime}</div>) 
+                    ) : (
+                      <div>Unavailable</div>
+                    )}
+                  </td>
+                  <td>
+                    {daySlot.slots.endTime !== "" ? (
+                      daySlot.slots.map((timeSlot, index) => <div key={index}>{timeSlot.endTime}</div>)
+                    ) : (
+                      <div>Unavailable</div>
+                    )}
                   </td>
                 </tr>
               ))}
@@ -89,6 +96,7 @@ const Calculate = () => {
     </main>
   );
 }
+
 
 export default Calculate;
 
