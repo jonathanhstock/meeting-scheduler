@@ -46,8 +46,11 @@ const Profile = () => {
         <button onClick={() => navigate(`/book/${username}`)} className="button">
           Email Schedule
         </button>
-        <button onClick={() => navigate(`/schedule/calculate`)} className="button">
+        <button onClick={() => navigate(`/calculate/${id}`)} className="button">
           Calculate Your Mutual Schedule
+        </button>
+        <button onClick={() => navigate(`/viewall/${id}`)} className="button">
+          View All Schedules
         </button>
       </div>
       <p>Here is your schedule: - {timezone}</p>
@@ -57,14 +60,14 @@ const Profile = () => {
             <tr key={sch.day}>
               <td style={{ fontWeight: "bold" }}>{sch.day.toUpperCase()}</td>
               <td>
-                {sch.startTime.length ? (
+                {sch.startTime[0].length ? (
                   sch.startTime.map((time, i) => <div key={i}>{time}</div>)
                 ) : (
                   <div>Unavailable</div>
                 )}
               </td>
               <td>
-                {sch.endTime.length ? (
+                {sch.endTime[0].length ? (
                   sch.endTime.map((time, i) => <div key={i}>{time}</div>)
                 ) : (
                   <div>Unavailable</div>

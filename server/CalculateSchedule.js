@@ -20,51 +20,60 @@ function calculateSchedule(...schedules) {
 
   // flatten times into an array to easily handle per day
   for (const day of days) {
-    const timeSlots = schedules.map((schedule) => schedule.getTimeSlots(day)).flat();
+    // boolean to handle finding an empty timeslot,
+    // this flag will ensure that the slots are not added if 
+    //    a schedule has no available times for a specified day
+    let foundEmpty = false;
+    const timeSlots = schedules
+      .map((schedule) => schedule.getTimeSlots(day))
+      .flat()
+      .map((timeSlot) => ({
+        startTime: timeSlot.startTime.padStart(7, '0'),
+        endTime: timeSlot.endTime.padStart(7, '0'),
+      }));
     
-    console.log(JSON.stringify(timeSlots, null, 2));
+    //console.log(JSON.stringify(timeSlots, null, 2));
 
     //sort an compare
     const sortedTimeSlots = timeSlots.sort((a, b) => {
       return a.startTime.localeCompare(b.startTime);
     });
 
-    let currentStartTime = "";
-    let currentEndTime = "";
+    // let currentStartTime = sortedTimeSlots[0].startTime;
+    // let currentEndTime = sortedTimeSlots[0].endTime;
+    let currentStartTime = null;
+    let currentEndTime = null;
+
+    // if(currentStartTime === "" || currentEndTime === "") continue;
 
     for (const timeSlot of sortedTimeSlots) {
-      // assign new end time if current end time is not in the next time slot
-      if(currentEndTime !== "") {
-        if(currentEndTime > timeSlot.endTime) {
-          currentEndTime = timeSlot.endTime;
-        }
+      if(timeSlot.startTime === "" || timeSlot.endTime === "") {
+        foundEmpty = true;
+        break;
       }
+      // assign new end time if current end time is not in the next time slot
+      if (currentStartTime === null) currentStartTime = timeSlot.startTime;
+      if (currentEndTime === null) currentEndTime = timeSlot.endTime;
       // assign new start time if current start time is not in the next time slot
-      if(currentStartTime !== "") {
-        if(currentStartTime < timeSlot.startTime) {
-          currentStartTime = timeSlot.startTime;
-        }
+      console.log("current: " + currentStartTime + "timeSlot: " + timeSlot.startTime);
+      if(currentStartTime <= timeSlot.startTime) {
+        currentStartTime = timeSlot.startTime;
+      }
+      if(currentEndTime >= timeSlot.endTime) {
+        currentEndTime = timeSlot.endTime;
       }
       // assign times if no currentStartTime/ end time is set yet
-      if(currentEndTime === "") currentEndTime = timeSlot.endTime;
-      if(currentStartTime === "") currentStartTime = timeSlot.startTime;
+      //PROBLEM HERE
+      // if(currentEndTime === "" ) currentEndTime = timeSlot.endTime;
+      // if(currentStartTime === "") currentStartTime = timeSlot.startTime;
 
-      // if (currentEndTime === "" || timeSlot.startTime > currentEndTime) {
-      //   if (currentStartTime !== "" && currentEndTime !== "") {
-      //     mutuallyFreeSchedule.addTimeSlot(day, currentStartTime, currentEndTime);
-      //   }
-      //   currentStartTime = timeSlot.startTime;
-      //   currentEndTime = timeSlot.endTime;
-      // } else if (timeSlot.endTime > currentEndTime) {
-      //   currentEndTime = timeSlot.endTime;
-      // }
       console.log('current start time: ' + currentStartTime + ' current end time: ' + currentEndTime);
     }
     
-    if (currentStartTime !== "" && currentEndTime !== "") {
+    if (currentStartTime !== null && currentEndTime !== null && !foundEmpty && currentStartTime !== "0000000" && currentEndTime !== "0000000") {
       mutuallyFreeSchedule.addTimeSlot(day, currentStartTime, currentEndTime);
     }
-    console.log(mutuallyFreeSchedule.getTimeSlots(day));
+    //console.log(mutuallyFreeSchedule.getTimeSlots(day));
   }
 
   return mutuallyFreeSchedule;
@@ -73,3 +82,4 @@ function calculateSchedule(...schedules) {
 
 
 module.exports = calculateSchedule;
+

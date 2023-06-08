@@ -46,16 +46,19 @@ function convertToScheduleArray(weeklyScheduleObj) {
     const timeSlots = weeklyScheduleObj.getTimeSlots(day);
     const daySlot = {
       day,
-      slots: timeSlots.map((timeSlot) => ({
-        startTime: timeSlot.startTime,
+      slots: timeSlots.length > 0 ? timeSlots.map((timeSlot) => ({
+        startTime: timeSlot.startTime, 
         endTime: timeSlot.endTime,
-      })),
+      })) : [{startTime: "", endTime: ""}],
     };
     scheduleArray.push(daySlot);
   }
 
   return scheduleArray;
 }
+
+
+
 
 app.post("/register", (req, res) => {
   const { username, email, password } = req.body;
@@ -110,21 +113,36 @@ app.post("/schedule/create", (req, res) => {
   res.json({ message: "OK" });
 });
 
-app.get("/schedule/calculate", (req, res) => {
-  const { id } = req.body;
+app.get("/calculate/:id", (req, res) => {
+  console.log("GET successful");
+
+  const { id } = req.params;
   let result = database.filter((db) => db.id === id);
   if (result.length === 1) {
-    const mutualSchedule = new WeeklySchedule();
+    console.log("User Found");
+
+    let mutualSchedule = new WeeklySchedule();
     const schedules = result[0].schedules;
     mutualSchedule = calculateSchedule(...schedules);
     const mutualScheduleArr = convertToScheduleArray(mutualSchedule);
+    
+    // debugging purposes
+    console.log("Mutual array calculated: ")
+    console.log(JSON.stringify(mutualScheduleArr, null, 2));
+
     return res.json({
-      message: 'mutual schedule calculated successfully',
-      schedule: mutualScheduleArr,
+      message: 'Mutual schedule calculated successfully',
+      schedules: mutualScheduleArr,
+      username: result[0].username,
+      timezone: result[0].timezone,
     });
   }
 });
 
+/*
+ * route for viewing latest schedule from user 
+ *    and navigation from here for user
+*/
 app.get("/schedules/:id", (req, res) => {
   const { id } = req.params;
   let result = database.filter((db) => db.id === id);
@@ -137,6 +155,34 @@ app.get("/schedules/:id", (req, res) => {
     });
   }
   return res.json({ error_message: "Sign in again, an error occured..." });
+});
+
+
+/*
+ * route for viewing all schedules for the user
+*/
+app.get("/viewAllSchedules/:id", (req, res) => {
+  const { id } = req.params;
+  let result = database.filter((db) => db.id === id);
+  let schedArrays = [];
+  if(result[0].schedules.length > 0) {
+    for(sched of result[0].schedules) {
+      schedArrays.push(convertToScheduleArray(sched));
+    }
+  }
+  else {
+    emptySched = new WeeklySchedule();
+    schedArrays.push(emptySched);
+  }
+  if(result.length === 1) {
+    return res.json({
+      message: "Schedules successfully retrieved!",
+      schedules: schedArrays,
+      username: result[0].username,
+      timezone: result[0].timezone,
+    });
+  }
+  return res.json({error_message: "Error returning schedules"});
 });
 
 app.post("/schedules/:username", (req, res) => {

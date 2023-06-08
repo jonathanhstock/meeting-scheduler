@@ -57,6 +57,9 @@ class WeeklySchedule {
     }
   }
 
+  getTimeSlotsByDay() {
+    return this.schedule;
+  }
   // clear specified day of schedule
   clearDay(day) {
     if (this.schedule.hasOwnProperty(day)) {
