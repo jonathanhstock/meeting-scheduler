@@ -65,6 +65,9 @@ const Calculate = () => {
             <button onClick={() => navigate(`/book/${username}`)} className="button">
               Email Schedule
             </button>
+            <button onClick={() => navigate(`/profile/${id}`)} className="button">
+              Profile
+            </button>
           </div>
 
           <p> Here is your calculated mutual schedule: - {timezone}</p>
