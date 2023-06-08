@@ -62,11 +62,11 @@ const ViewAll = () => {
             <button onClick={() => navigate("/dashboard")} className="button">
               Dashboard
             </button>
-            <button
-              onClick={() => navigate(`/book/${username}`)}
-              className="button"
-            >
+            <button onClick={() => navigate(`/book/${username}`)}className="button">
               Email Schedule
+            </button>
+            <button onClick={() => navigate(`/profile/${id}`)} className="button">
+              Profile
             </button>
           </div>
 
@@ -108,7 +108,7 @@ export default ViewAll;
 
 
 
-//correct formatting that works on Calculate.js
+// correct formatting that works on Calculate.js
 
 // {schedules.map((daySlot) => (
 //   <tr key={daySlot.day}>
