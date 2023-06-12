@@ -30,4 +30,4 @@
 
 ## Contact
 
-- Any questions regarding the web application, please contact **jstock@scu.edu** or **mdavenport@scu.edu**
+- Any questions regarding the web application, please contact **jstock@scu.edu** or **mdavenport@scu.edu** or **dblanc@scu.edu**
