@@ -62,9 +62,6 @@ const Dashboard = () => {
     <div className="container">
       <nav>
         <h2>Jegg-Meet</h2>
-        <button onClick={() => navigate(`#`)} className="button">
-          Add Schedule
-        </button>
         <button
           onClick={() => navigate(`/profile/${localStorage.getItem("_id")}`)}
           className="button"
@@ -141,7 +138,7 @@ const Dashboard = () => {
 
         <div>
           <button onClick={handleSaveSchedules} className="button save-button">
-            SAVE SCHEDULES
+            ADD SCHEDULE
           </button>
         </div>
       </main>
